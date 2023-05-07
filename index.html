@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog watch</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="top">
+        <span class="heading">
+            Select time zone
+        </span>
+        <select id="timezone" onchange="load()">
+            <option value="local">Local Time</option>
+            <option value="UTC">UTC</option>
+            <option value="America/New_York">New York</option>
+            <option value="Europe/London">London</option>
+            <option value="Asia/Tokyo">Tokyo</option>
+            <option value="Australia/Sydney">Sydney</option>
+            <option value="America/Los_Angeles">Los Angeles</option>
+            <option value="Europe/Paris">Paris</option>
+            <option value="Asia/Dubai">Dubai</option>
+            <option value="America/Chicago">Chicago</option>
+            <option value="Asia/Shanghai">Shanghai</option>
+            <!-- Add more options for different countries or time zones -->
+          </select>
+
+    </div>
+    <div class="main">
+        <img src="clock.png" alt="">
+        <span id="second"></span>
+        <span id="hour"></span>
+        <span id="minute"></span>
+    </div>
+    <script>
+        function load()
+        {
+           location.reload()
+        }
+        
+        var d = new Date();
+        var selectedTimezone = document.getElementById('timezone').value;
+
+        if (selectedTimezone === 'local') {
+        h = d.getHours() % 12;
+        m = d.getMinutes();
+        s = d.getSeconds();
+      } else {
+        var options = { timeZone: selectedTimezone, hour12: false };
+        h = new Date().toLocaleTimeString('en-US', options).split(':')[0] % 12;
+        m = new Date().toLocaleTimeString('en-US', options).split(':')[1];
+        s = new Date().toLocaleTimeString('en-US', options).split(':')[2];
+      }
+
+        s = s - 2
+
+        m1 = 6 * m
+        h1 = (30 * h) + (0.5 * m)
+        setInterval(function () {
+            document.getElementById('second').style.transform = `rotate(${6 * s}deg)`
+            document.getElementById('minute').style.transform = `rotate(${m1}deg)`
+            document.getElementById('hour').style.transform = `rotate(${h1}deg)`
+            s++
+            m1 += 0.1
+            h1 += (1 / 120)
+        }, 1000);
+
+
+
+    </script>
+</body>
+
+</html>
